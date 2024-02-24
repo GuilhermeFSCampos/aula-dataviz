@@ -12,8 +12,10 @@ _DEFAULT_MIN_RADIUS_PIXEL = 4
 
 df = load_data()
 state = st.sidebar.selectbox('Selecione o Estado',sorted(df['STATE'].unique()), index=12)
-cities = sorted(df[df['STATE'] == state]['CITY'].unique())
-city = st.sidebar.selectbox('Selecione a cidade', cities, index=35)
+city = df[(df['STATE'] == state) & (df['CAPITAL'] == 1)]['CITY'].values[0]
+cities = df[df['STATE'] == state]['CITY'].unique()
+default_index = cities.tolist().index(city)
+city = st.sidebar.selectbox('Selecione a cidade', cities, index=default_index)
 
 
 def build_map(df_data, color, radius, radius_min_pixels):
